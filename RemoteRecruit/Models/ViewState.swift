@@ -1,0 +1,53 @@
+//
+//  ViewState.swift
+//  RemoteRecruit
+//
+//  Created by tushar on 05/06/26.
+//
+
+import Foundation
+
+/// A senior-level state architecture pattern that eliminates impossible UI states.
+enum ViewState<T: Equatable>: Equatable {
+    case idle
+    case loading
+    case loaded(T)
+    case empty(reason: EmptyReason)
+    case error(AppError)
+    case offline
+}
+
+/// Precise categorical reasons for empty display states.
+enum EmptyReason: Equatable {
+    case firstLaunch
+    case noResults(query: String)
+    case filtered
+}
+
+
+enum AppError: Error, Equatable {
+    case network(String)
+    case serverError(Int)
+    case decodingFailed(String)
+    case rateLimited
+    case unknown(String)
+
+    var localizedDescription: String {
+        switch self {
+        case .network(let message):
+            return message
+
+        case .serverError(let code):
+            return "Server error (\(code))"
+
+        case .decodingFailed:
+            return "Failed to parse server response"
+
+        case .rateLimited:
+            return "Too many requests"
+
+        case .unknown(let message):
+            return message
+        }
+    }
+}

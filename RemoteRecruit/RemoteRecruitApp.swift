@@ -11,7 +11,9 @@ import SwiftUI
 struct RemoteRecruitApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationStack{
+                JobListView()//home entry 
+            }
         }
     }
 }
