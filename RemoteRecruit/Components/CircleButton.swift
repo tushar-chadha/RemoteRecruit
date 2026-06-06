@@ -16,7 +16,6 @@ struct CircleButton: View {
             Image(systemName: icon)
                 .font(.system(size: 16, weight: .medium))
                 .frame(width: 40, height: 40)
-                .glassEffect(.regular.interactive(), in: Circle())
         }
         .buttonStyle(.plain)
     }

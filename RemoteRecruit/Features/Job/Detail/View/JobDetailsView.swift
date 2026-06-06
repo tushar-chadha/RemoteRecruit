@@ -14,13 +14,7 @@ struct JobDetailView: View {
     var body: some View {
 
         ScrollView {
-            HStack {
-                CircleButton(icon: "chevron.left")
-                Spacer()
-                CircleButton(icon: "square.and.arrow.up")
-
-                CircleButton(icon: "heart")
-            }.padding(.horizontal, 16)
+           
             VStack(alignment: .leading, spacing: 16) {
                 JobHeroSection(job: job)
                 JobInfoCardsSection(job: job)
@@ -36,15 +30,17 @@ struct JobDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .background(
             Color(
-                UIColor(
-                    red: 247 / 255,
-                    green: 248 / 255,
-                    blue: 250 / 255,
-                    alpha: 1
-                )
+                AppColors.background
             )
             .ignoresSafeArea()
-            .toolbar(.hidden)
+            .toolbar {
+
+                        // ✅ Share + Heart on the right
+                        ToolbarItemGroup(placement: .topBarTrailing) {
+                            CircleButton(icon: "square.and.arrow.up",)
+                            CircleButton(icon: "heart")
+                        }
+                    }
         )
     }
 }
