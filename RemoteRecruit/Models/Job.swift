@@ -58,7 +58,17 @@ struct Job: Codable, Identifiable, Hashable, Equatable {
 }
 
 extension Job {
+    var postedDateText: String {
+        let date = Date(timeIntervalSince1970: TimeInterval(pubDate ?? 0))
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = .short
+        
+        return formatter.localizedString(
+            for: date,
+            relativeTo: Date()
+        )
 
+    }
     var salaryText: String {
 
         guard let minSalary, let maxSalary else {
@@ -116,5 +126,30 @@ extension Job {
     var expiry: Date? {
         guard let expiryDate else { return nil }
         return Date(timeIntervalSince1970: TimeInterval(expiryDate))
+    }
+}
+
+enum JobParser {
+
+    static func requirements(from html: String) -> [String] {
+
+        let text = html.htmlToString
+
+        let lines = text.components(separatedBy: "\n")
+
+        return lines
+            .map { $0.trimmingCharacters(in: .whitespaces) }
+            .filter {
+                !$0.isEmpty &&
+                (
+                    $0.contains("Swift") ||
+                    $0.contains("iOS") ||
+                    $0.contains("experience") ||
+                    $0.contains("degree") ||
+                    $0.contains("skills")
+                )
+            }
+            .prefix(8)
+            .map { $0 }
     }
 }
