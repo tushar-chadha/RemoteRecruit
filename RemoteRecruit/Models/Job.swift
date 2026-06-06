@@ -22,7 +22,6 @@ struct Job: Codable, Identifiable, Hashable, Equatable {
     let title: String
     let companyName: String
     let companyLogo: String?
-
     let employmentType: String?
     let description: String
     let excerpt: String?
