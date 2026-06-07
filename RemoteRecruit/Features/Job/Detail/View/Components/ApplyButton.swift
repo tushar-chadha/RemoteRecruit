@@ -19,23 +19,27 @@ struct ApplyBottomBar: View {
                     .clipShape(Circle())
             }
 
-            Link(
-                destination: URL(
-                    string: job.applicationLink ?? ""
-                )!
-            ) {
-
-                Text("Apply Now")
-                    .fontWeight(.semibold)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 56)
-                    .background(.blue)
-                    .foregroundStyle(.white)
-                    .clipShape(
-                        RoundedRectangle(
-                            cornerRadius: 16
-                        )
-                    )
+            if let linkString = job.applicationLink, let url = URL(string: linkString) {
+                Link(destination: url) {
+                    Text("Apply Now")
+                        .fontWeight(.semibold)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 56)
+                        .background(AppColors.primary)
+                        .foregroundStyle(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: AppRadius.medium))
+                }
+            } else {
+                Button(action: {}) {
+                    Text("Apply Not Available")
+                        .fontWeight(.semibold)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 56)
+                        .background(Color.gray)
+                        .foregroundStyle(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: AppRadius.medium))
+                }
+                .disabled(true)
             }
         }
         .padding()

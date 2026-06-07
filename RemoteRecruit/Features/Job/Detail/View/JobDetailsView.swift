@@ -29,19 +29,16 @@ struct JobDetailView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .background(
-            Color(
-                AppColors.background
-            )
-            .ignoresSafeArea()
-            .toolbar {
-
-                        // ✅ Share + Heart on the right
-                        ToolbarItemGroup(placement: .topBarTrailing) {
-                            CircleButton(icon: "square.and.arrow.up")
-                            SaveButton(job: job)
-                        }
-                    }
+            AppColors.background
+                .ignoresSafeArea()
         )
+        .toolbar {
+            // ✅ Share + Heart on the right
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                CircleButton(icon: "square.and.arrow.up")
+                SaveButton(job: job)
+            }
+        }
     }
 }
 
