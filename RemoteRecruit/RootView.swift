@@ -11,7 +11,7 @@ struct RootView: View {
             case .loading:
                 SplashView()
             case .authenticated, .guest:   // ✅ merge identical cases
-                JobListView()
+                MainTabView()
             case .unauthenticated:
                 AuthView()
             }
