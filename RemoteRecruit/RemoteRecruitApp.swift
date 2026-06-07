@@ -18,11 +18,12 @@ struct RemoteRecruitApp: App {
         }
     }
     
+    // MARK: - THEME
     private var resolvedScheme: ColorScheme? {
         switch appearanceMode {
         case "light": return .light
         case "dark":  return .dark
-        default:      return nil // system
+        default:      return nil
         }
     }
 }

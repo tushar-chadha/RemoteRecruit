@@ -37,11 +37,14 @@ final class JobListViewModel: ObservableObject {
             debouncedSearch(query: searchText)
         }
     }
+    @Published var recentSearches: [String] = []
 
     // MARK: - Search
     private var searchTask: Task<Void, Never>?
     private var isSearchMode = false
-
+    var isSearching : Bool{
+        searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty==false 
+    }
     // MARK: - Pagination
     private var jobs: [Job] = []
     private var currentOffset = 0
@@ -124,12 +127,12 @@ final class JobListViewModel: ObservableObject {
 
         if query.isEmpty {
             Task { await refresh() }
-            return // ✅ Exit early — don't create a search task
+            return  // ✅ Exit early — don't create a search task
         }
 
         searchTask = Task {
             try? await Task.sleep(for: .milliseconds(400))
-            guard !Task.isCancelled else { return } // ✅ Readable: "ensure NOT canceled"
+            guard !Task.isCancelled else { return }  // ✅ Readable: "ensure NOT canceled"
             await performSearch(query: query)
         }
     }
@@ -147,7 +150,7 @@ final class JobListViewModel: ObservableObject {
             print("Searching: \(query)")
             print("Jobs Found: \(response.jobs.count)")
             jobs = response.jobs
-          
+
             if jobs.isEmpty {
                 state = .empty(
                     reason: .noResults(
@@ -155,16 +158,22 @@ final class JobListViewModel: ObservableObject {
                     )
                 )
             } else {
+                SearchHistoryManager.shared.save(
+                    search: searchText
+                )
+                loadRecentSearches()
                 state = .loaded(jobs)
             }
-        }catch is CancellationError {
+        } catch is CancellationError {
             return
-        }catch let urlError as URLError where urlError.code == .cancelled {
+        } catch let urlError as URLError where urlError.code == .cancelled {
             return
-        }
-        catch let error as AppError {if case .unknown(let msg) = error, msg.lowercased().contains("cancel") {
-            return
-        }
+        } catch let error as AppError {
+            if case .unknown(let msg) = error,
+                msg.lowercased().contains("cancel")
+            {
+                return
+            }
             print("Apperror is: \(error)")
             state = .error(error)
         } catch {
@@ -173,5 +182,12 @@ final class JobListViewModel: ObservableObject {
                 .unknown(error.localizedDescription)
             )
         }
+
+        // MARK: - RECENT SEARCH KEYWORDS
+
+    }
+    func loadRecentSearches() {
+        recentSearches =
+            SearchHistoryManager.shared.getSearches()
     }
 }
