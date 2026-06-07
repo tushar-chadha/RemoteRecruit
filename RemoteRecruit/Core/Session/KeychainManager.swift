@@ -8,7 +8,7 @@ final class KeychainManager {
 
     // MARK: - Save
     @discardableResult
-    func set(key: String, value: String) -> Bool {
+    func save(key: String, value: String) -> Bool {
         guard let data = value.data(using: .utf8) else { return false }
 
         let query: [String: Any] = [
@@ -48,17 +48,6 @@ final class KeychainManager {
         let query: [String: Any] = [
             kSecClass as String       : kSecClassGenericPassword,
             kSecAttrAccount as String : key
-        ]
-
-        let status = SecItemDelete(query as CFDictionary)
-        return status == errSecSuccess || status == errSecItemNotFound
-    }
-
-    // MARK: - Clear all
-    @discardableResult
-    func clearAll() -> Bool {
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword
         ]
 
         let status = SecItemDelete(query as CFDictionary)

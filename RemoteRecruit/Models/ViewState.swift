@@ -17,7 +17,7 @@ enum ViewState<T: Equatable>: Equatable {
     case offline
 }
 /// Auth State
-enum AuthState {
+enum AuthState : Equatable{
     case loading
     case authenticated
     case guest
