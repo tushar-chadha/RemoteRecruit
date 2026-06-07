@@ -37,8 +37,8 @@ struct JobDetailView: View {
 
                         // ✅ Share + Heart on the right
                         ToolbarItemGroup(placement: .topBarTrailing) {
-                            CircleButton(icon: "square.and.arrow.up",)
-                            CircleButton(icon: "heart")
+                            CircleButton(icon: "square.and.arrow.up")
+                            SaveButton(job: job)
                         }
                     }
         )

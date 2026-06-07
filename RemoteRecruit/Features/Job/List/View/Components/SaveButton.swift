@@ -24,6 +24,8 @@ struct SaveButton: View {
                 .frame(width: 44, height: 44) // Accessibility minimum touch target
                 .contentShape(Circle())
         }
+        .accessibilityLabel(isSaved ? "Remove from saved jobs" : "Save job")
+        .accessibilityAddTraits(.isButton)
         .onAppear {
             isSaved = SavedJobsManager.shared.isSaved(job)
         }

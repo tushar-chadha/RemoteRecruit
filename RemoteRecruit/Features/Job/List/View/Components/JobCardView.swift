@@ -66,5 +66,8 @@ struct JobCardView: View {
         .background(AppColors.cardBackground)
         .clipShape(RoundedRectangle(cornerRadius: AppRadius.large))
         .shadow(color: AppShadow.card, radius: 12, y: 4)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(job.title) at \(job.companyDisplayName), \(job.locationText)")
+        .accessibilityHint("Double tap to view job details")
     }
 }

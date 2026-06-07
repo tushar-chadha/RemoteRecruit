@@ -45,8 +45,14 @@ struct JobListView: View {
             Color.clear  // Should transition quickly to loading
 
         case .loading:
-            ProgressView("Loading Jobs...")
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            ScrollView {
+                LazyVStack(spacing: AppSpacing.md) {
+                    ForEach(0..<6, id: \.self) { _ in
+                        SkeletonJobCardView()
+                    }
+                }
+                .padding(AppSpacing.md)
+            }
 
         case .empty:
             emptyStateView

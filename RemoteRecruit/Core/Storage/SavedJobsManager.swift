@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 
 final class SavedJobsManager: ObservableObject {
     static let shared = SavedJobsManager()
