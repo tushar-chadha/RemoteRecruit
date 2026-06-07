@@ -5,7 +5,6 @@
 //  Created by tushar on 07/06/26.
 //
 
-
 internal import UIKit
 
 extension String {
@@ -22,7 +21,7 @@ extension String {
                 data: data,
                 options: [
                     .documentType: NSAttributedString.DocumentType.html,
-                    .characterEncoding: String.Encoding.utf8.rawValue
+                    .characterEncoding: String.Encoding.utf8.rawValue,
                 ],
                 documentAttributes: nil
             )
@@ -34,4 +33,13 @@ extension String {
             return self
         }
     }
+}
+
+enum historyManagerKeys: String {
+    case recentSearch = "recent_searches"
+    case isGuest = "is_guest"
+
+}
+enum keyChainKeys: String {
+    case accessToken = "access_token"
 }

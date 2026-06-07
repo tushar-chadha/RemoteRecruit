@@ -45,6 +45,3 @@ final class SearchHistoryManager {
         UserDefaults.standard.removeObject(forKey: key.rawValue)
     }
 }
-enum historyManagerKeys: String {
-    case recentSearch = "recent_searches"
-}

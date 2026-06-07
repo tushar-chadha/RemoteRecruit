@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// A senior-level state architecture pattern that eliminates impossible UI states.
+/// UI States
 enum ViewState<T: Equatable>: Equatable {
     case idle
     case loading
@@ -16,14 +16,19 @@ enum ViewState<T: Equatable>: Equatable {
     case error(AppError)
     case offline
 }
-
+/// Auth State
+enum AuthState {
+    case loading
+    case authenticated
+    case guest
+    case unauthenticated
+}
 /// Precise categorical reasons for empty display states.
 enum EmptyReason: Equatable {
     case firstLaunch
     case noResults(query: String)
     case filtered
 }
-
 
 enum AppError: Error, Equatable {
     case network(String)

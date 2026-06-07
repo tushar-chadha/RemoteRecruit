@@ -85,7 +85,6 @@ struct JobListView: View {
                                 AppColors.textSecondary
                             )
                     }
-
                 }
 
                 // Jobs List
