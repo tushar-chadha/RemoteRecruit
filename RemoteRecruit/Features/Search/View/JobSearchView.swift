@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct JobSearchView: View {
-
+    var initialQuery: String = ""
     @StateObject private var viewModel = JobSearchViewModel()
     @Environment(\.dismiss) private var dismiss
 
@@ -39,6 +39,11 @@ struct JobSearchView: View {
                         dismiss()
                     }
                 }
+            }
+            .task {
+                guard !initialQuery.isEmpty else { return }
+                viewModel.searchText = initialQuery
+                await viewModel.performSearch()
             }
         }
     }

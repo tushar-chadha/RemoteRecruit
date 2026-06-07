@@ -37,7 +37,7 @@ final class JobSearchViewModel: ObservableObject {
         }
     }
 
-    private func performSearch() async {
+    func performSearch() async {
         isLoading = true
         errorMessage = nil
         hasSearched = true

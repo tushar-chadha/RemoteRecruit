@@ -9,6 +9,7 @@ struct JobListView: View {
     @State private var showSaved = false
     @State private var showProfile = false
     @State private var showSearch = false
+    @State private var selectedSearchQuery = ""
 
     init() {
         let service = JobService()
@@ -40,6 +41,7 @@ struct JobListView: View {
                         showProfile = true
                     },
                     onSearchTap: {
+                        selectedSearchQuery = ""
                         showSearch = true
                     }
                 )
@@ -60,7 +62,7 @@ struct JobListView: View {
                 ProfileView()
             }
             .sheet(isPresented: $showSearch) {
-                JobSearchView()
+                JobSearchView(initialQuery: selectedSearchQuery)
             }
         }
     }
@@ -107,7 +109,8 @@ struct JobListView: View {
                     RecentSearchesView(
                         searches: viewModel.recentSearches
                     ) { search in
-                        viewModel.searchText = search
+                        selectedSearchQuery = search
+                        showSearch = true
                     }
                     HStack(alignment: .firstTextBaseline) {
                         Text("\(jobs.count) Jobs Found")
