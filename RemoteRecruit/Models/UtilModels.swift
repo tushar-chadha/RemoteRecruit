@@ -10,28 +10,14 @@ internal import UIKit
 extension String {
 
     var htmlToString: String {
-
-        guard let data = data(using: .utf8) else {
-            return self
-        }
-
-        do {
-
-            let attributed = try NSAttributedString(
-                data: data,
-                options: [
-                    .documentType: NSAttributedString.DocumentType.html,
-                    .characterEncoding: String.Encoding.utf8.rawValue,
-                ],
-                documentAttributes: nil
-            )
-
-            return attributed.string
-
-        } catch {
-
-            return self
-        }
+        // NSAttributedString HTML parsing is extremely slow and MUST happen on the main thread.
+        // Calling it synchronously inside a SwiftUI view body evaluating multiple times causes AttributeGraph cycles.
+        // For production, this should ideally be parsed once in the ViewModel or Model init.
+        // For immediate safety, we strip basic HTML tags manually to avoid the NSAttributedString crash loop.
+        var stripped = self.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+        stripped = stripped.replacingOccurrences(of: "&nbsp;", with: " ")
+        stripped = stripped.replacingOccurrences(of: "&amp;", with: " ")
+        return stripped.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }
 
