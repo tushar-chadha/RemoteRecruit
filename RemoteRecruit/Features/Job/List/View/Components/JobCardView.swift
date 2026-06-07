@@ -9,7 +9,7 @@ struct JobCardView: View {
             HStack(alignment: .top) {
                 CompanyLogo(urlString: job.companyLogo)
                 Spacer()
-                SaveButton()
+                SaveButton(job: job)
             }
             
             // Middle: Title

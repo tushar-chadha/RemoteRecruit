@@ -1,13 +1,19 @@
 import SwiftUI
 
 struct SaveButton: View {
-    @State private var isSaved: Bool = false
+    let job: Job
+    @StateObject private var savedJobsManager = SavedJobsManager.shared
+    
+    var isSaved: Bool {
+        savedJobsManager.isSaved(job: job)
+    }
     
     var body: some View {
         Button(action: {
             withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
-                isSaved.toggle()
+                savedJobsManager.toggleSave(job: job)
             }
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
         }) {
             Image(systemName: isSaved ? "heart.fill" : "heart")
                 .font(.system(size: 20, weight: .medium))
@@ -18,6 +24,3 @@ struct SaveButton: View {
     }
 }
 
-#Preview {
-    SaveButton()
-}

@@ -29,4 +29,4 @@ struct RemoteRecruitApp: App {
     }
 }
 
-}
+

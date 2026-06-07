@@ -34,36 +34,6 @@
             endingLineNumber = "78"
             landmarkName = "loadedStateView(jobs:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "9BF3AEE4-F78B-480A-BD8E-2B80872F8785 - 1a131107b236ea0b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; SwiftUI.TupleView&lt;(Swift.Optional&lt;SwiftUI.TupleView&lt;(RemoteRecruit.RecentSearchesView, SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI.Spacer, SwiftUI.Text)&gt;&gt;)&gt;&gt;, SwiftUI.LazyVStack&lt;SwiftUI.ForEach&lt;Swift.Array&lt;RemoteRecruit.Job&gt;, Swift.String, &lt;&lt;opaque return type of SwiftUI.View.buttonStyle&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.PrimitiveButtonStyle&gt;(&#x3c4;_1_0) -&gt; some&gt;&gt;.0&gt;&gt;)&gt; in closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.View.padding(SwiftUI.Edge.Set, Swift.Optional&lt;CoreGraphics.CGFloat&gt;) -&gt; some&gt;&gt;.0 in RemoteRecruit.JobListView.loadedStateView(jobs: Swift.Array&lt;RemoteRecruit.Job&gt;) -&gt; some"
-                  moduleName = "RemoteRecruit.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tushar/Desktop/iosNative/RemoteRecruit/RemoteRecruit/Features/Job/List/View/JobsListView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "78"
-                  endingLineNumber = "78">
-               </Location>
-               <Location
-                  uuid = "9BF3AEE4-F78B-480A-BD8E-2B80872F8785 - 640dcc6983a0a435"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI.Spacer, SwiftUI.Text)&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(Swift.Optional&lt;SwiftUI.TupleView&lt;(RemoteRecruit.RecentSearchesView, SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI.Spacer, SwiftUI.Text)&gt;&gt;)&gt;&gt;, SwiftUI.LazyVStack&lt;SwiftUI.ForEach&lt;Swift.Array&lt;RemoteRecruit.Job&gt;, Swift.String, &lt;&lt;opaque return type of SwiftUI.View.buttonStyle&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.PrimitiveButtonStyle&gt;(&#x3c4;_1_0) -&gt; some&gt;&gt;.0&gt;&gt;)&gt; in closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.View.padding(SwiftUI.Edge.Set, Swift.Optional&lt;CoreGraphics.CGFloat&gt;) -&gt; some&gt;&gt;.0 in RemoteRecruit.JobListView.loadedStateView(jobs: Swift.Array&lt;RemoteRecruit.Job&gt;) -&gt; some"
-                  moduleName = "RemoteRecruit.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tushar/Desktop/iosNative/RemoteRecruit/RemoteRecruit/Features/Job/List/View/JobsListView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "78"
-                  endingLineNumber = "78">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

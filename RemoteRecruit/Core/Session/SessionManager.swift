@@ -1,15 +1,9 @@
 import Foundation
 import Combine
 
-enum AuthState {
-    case loading
-    case authenticated
-    case guest
-    case unauthenticated
-}
 
 @MainActor
-final class SessionManager: ObservableObject {
+final class SessionManager : ObservableObject {
     static let shared = SessionManager()
     
     @Published private(set) var authState: AuthState = .loading

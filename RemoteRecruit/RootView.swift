@@ -3,7 +3,7 @@ import SwiftUI
 struct RootView: View {
 
     @StateObject
-    private var session = SessionManager()
+    private var session = SessionManager.shared
 
     var body: some View {
         Group {
