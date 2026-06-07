@@ -18,8 +18,4 @@
 //}
 // TabBarItem.swift
 
-enum TabBarItem {
-    case jobs
-    case saved
-    case profile
-}
+

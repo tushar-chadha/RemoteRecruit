@@ -2,16 +2,19 @@ import SwiftUI
 
 struct SaveButton: View {
     let job: Job
-    @StateObject private var savedJobsManager = SavedJobsManager.shared
     
-    var isSaved: Bool {
-        savedJobsManager.isSaved(job: job)
+    @State private var isSaved: Bool
+    
+    init(job: Job) {
+        self.job = job
+        _isSaved = State(initialValue: SavedJobsManager.shared.isSaved(job))
     }
     
     var body: some View {
         Button(action: {
             withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
-                savedJobsManager.toggleSave(job: job)
+                SavedJobsManager.shared.toggleSave(job)
+                isSaved = SavedJobsManager.shared.isSaved(job)
             }
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
         }) {
@@ -21,6 +24,8 @@ struct SaveButton: View {
                 .frame(width: 44, height: 44) // Accessibility minimum touch target
                 .contentShape(Circle())
         }
+        .onAppear {
+            isSaved = SavedJobsManager.shared.isSaved(job)
+        }
     }
 }
-

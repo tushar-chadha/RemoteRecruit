@@ -10,7 +10,7 @@ import Foundation
 final class SearchHistoryManager {
     static let shared = SearchHistoryManager()
     private let key = historyManagerKeys.recentSearch
-
+    private init() {}
     func save(search: String) {
 
         var searches = getSearches()
@@ -44,4 +44,9 @@ final class SearchHistoryManager {
     func clearSearches() {
         UserDefaults.standard.removeObject(forKey: key.rawValue)
     }
+}
+enum historyManagerKeys: String {
+    case recentSearch = "recent_searches"
+    case isGuest = "is_guest"
+
 }

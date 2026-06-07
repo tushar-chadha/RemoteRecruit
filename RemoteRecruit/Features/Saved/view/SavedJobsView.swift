@@ -1,21 +1,19 @@
 import SwiftUI
 
 struct SavedJobsView: View {
-    @StateObject private var viewModel = SavedJobsViewModel()
+    @StateObject private var manager = SavedJobsManager.shared
     
     var body: some View {
         NavigationStack {
             ZStack {
                 AppColors.background.ignoresSafeArea()
                 
-                if viewModel.isLoading && viewModel.savedJobs.isEmpty {
-                    ProgressView("Loading Saved Jobs...")
-                } else if viewModel.savedJobs.isEmpty {
+                if manager.savedJobs.isEmpty {
                     emptyState
                 } else {
                     ScrollView {
                         LazyVStack(spacing: AppSpacing.md) {
-                            ForEach(viewModel.savedJobs) { job in
+                            ForEach(manager.savedJobs) { job in
                                 NavigationLink(destination: JobDetailView(job: job)) {
                                     JobCardView(job: job)
                                 }
@@ -30,8 +28,8 @@ struct SavedJobsView: View {
             }
             .navigationTitle("Saved Jobs")
             .navigationBarTitleDisplayMode(.large)
-            .task {
-                await viewModel.fetchSavedJobs()
+            .onAppear {
+                // Ensure UI reflects any background updates
             }
         }
     }

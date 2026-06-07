@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftUI
-
+import Combine
 /// Dependency Container managing shared state and platform tracking instances.
 @MainActor
 final class AppEnvironment {

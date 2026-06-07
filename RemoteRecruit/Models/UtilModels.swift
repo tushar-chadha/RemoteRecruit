@@ -35,11 +35,7 @@ extension String {
     }
 }
 
-enum historyManagerKeys: String {
-    case recentSearch = "recent_searches"
-    case isGuest = "is_guest"
 
-}
 enum keyChainKeys: String {
     case accessToken = "access_token"
 }

@@ -1,5 +1,5 @@
 import Foundation
-
+import Combine
 @MainActor
 final class ProfileViewModel: ObservableObject {
     @Published private(set) var isGuest: Bool = false

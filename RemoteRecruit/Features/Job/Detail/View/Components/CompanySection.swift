@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import Combine
 struct CompanySection: View {
 
     let job: Job

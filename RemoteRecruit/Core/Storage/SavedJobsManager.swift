@@ -1,50 +1,39 @@
 import Foundation
-import Combine
 
-@MainActor
 final class SavedJobsManager: ObservableObject {
     static let shared = SavedJobsManager()
     
-    @Published private(set) var savedJobIDs: Set<String> = []
+    @Published private(set) var savedJobs: [Job] = []
     
-    private let storageKey = "saved_jobs_ids"
+    private let storageKey = "saved_jobs"
     
     private init() {
-        loadSavedJobs()
+        load()
     }
     
-    private func loadSavedJobs() {
-        if let data = UserDefaults.standard.data(forKey: storageKey),
-           let decoded = try? JSONDecoder().decode(Set<String>.self, from: data) {
-            savedJobIDs = decoded
+    func toggleSave(_ job: Job) {
+        if isSaved(job) {
+            savedJobs.removeAll { $0.id == job.id }
+        } else {
+            savedJobs.append(job)
         }
+        persist()
     }
     
-    private func saveToDisk() {
-        if let encoded = try? JSONEncoder().encode(savedJobIDs) {
+    func isSaved(_ job: Job) -> Bool {
+        savedJobs.contains { $0.id == job.id }
+    }
+    
+    private func persist() {
+        if let encoded = try? JSONEncoder().encode(savedJobs) {
             UserDefaults.standard.set(encoded, forKey: storageKey)
         }
     }
     
-    func save(job: Job) {
-        savedJobIDs.insert(job.id)
-        saveToDisk()
-    }
-    
-    func remove(job: Job) {
-        savedJobIDs.remove(job.id)
-        saveToDisk()
-    }
-    
-    func isSaved(job: Job) -> Bool {
-        savedJobIDs.contains(job.id)
-    }
-    
-    func toggleSave(job: Job) {
-        if isSaved(job: job) {
-            remove(job: job)
-        } else {
-            save(job: job)
+    private func load() {
+        if let data = UserDefaults.standard.data(forKey: storageKey),
+           let decoded = try? JSONDecoder().decode([Job].self, from: data) {
+            savedJobs = decoded
         }
     }
 }
