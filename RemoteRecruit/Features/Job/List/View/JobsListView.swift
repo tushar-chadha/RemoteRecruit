@@ -4,6 +4,11 @@ import SwiftUI
 struct JobListView: View {
     @StateObject private var viewModel: JobListViewModel
     @State private var isSearching = false
+    
+    // MARK: - Navigation States
+    @State private var showSaved = false
+    @State private var showProfile = false
+    @State private var showSearch = false
 
     init() {
         let service = JobService()
@@ -16,25 +21,47 @@ struct JobListView: View {
 
     var body: some View {
         NavigationStack {
-            ZStack {
-                AppColors.background.ignoresSafeArea()
+            ZStack(alignment: .bottom) {
+                ZStack {
+                    AppColors.background.ignoresSafeArea()
 
-                content
+                    content
+                }
+                
+                // Custom Floating Tab Bar overlay
+                FloatingTabBar(
+                    onJobsTap: {
+                        // Action for current screen, e.g., scroll to top
+                    },
+                    onSavedTap: {
+                        showSaved = true
+                    },
+                    onProfileTap: {
+                        showProfile = true
+                    },
+                    onSearchTap: {
+                        showSearch = true
+                    }
+                )
+                .padding(.bottom, AppSpacing.sm)
             }
-
+            .ignoresSafeArea(.keyboard, edges: .bottom)
             .navigationTitle("Find Your Dream Job")
             .navigationBarTitleDisplayMode(.large)
-            .searchable(
-                text: $viewModel.searchText,
-                isPresented: $isSearching,
-                prompt: "Search jobs",
-            )
             .task {
-
                 viewModel.loadRecentSearches()
                 await viewModel.loadJobs()
             }
-
+            // MARK: - Navigation Destinations
+            .navigationDestination(isPresented: $showSaved) {
+                SavedJobsView()
+            }
+            .navigationDestination(isPresented: $showProfile) {
+                ProfileView()
+            }
+            .sheet(isPresented: $showSearch) {
+                JobSearchView()
+            }
         }
     }
 
@@ -52,6 +79,7 @@ struct JobListView: View {
                     }
                 }
                 .padding(AppSpacing.md)
+                .padding(.bottom, 80) // Padding for FloatingTabBar
             }
 
         case .empty:
@@ -106,7 +134,7 @@ struct JobListView: View {
                 }
             }
             .padding(.horizontal, AppSpacing.md)
-            .padding(.bottom, AppSpacing.lg)
+            .padding(.bottom, 100) // Padding for FloatingTabBar
         }
         .refreshable {
             await viewModel.refresh()

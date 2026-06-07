@@ -1,43 +1,17 @@
 import SwiftUI
 
 struct FloatingTabBar: View {
-    @Binding var selectedTab: TabBarItem
-    let searchAction: () -> Void
+    let onJobsTap: () -> Void
+    let onSavedTap: () -> Void
+    let onProfileTap: () -> Void
+    let onSearchTap: () -> Void
     
     var body: some View {
         HStack(spacing: 0) {
-            ForEach(TabBarItem.allCases, id: \.self) { tab in
-                Button(action: {
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                        selectedTab = tab
-                    }
-                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                }) {
-                    VStack(spacing: 4) {
-                        Image(systemName: tab.iconName)
-                            .font(.system(size: 20, weight: .medium))
-                        Text(tab.rawValue)
-                            .font(AppTypography.caption)
-                    }
-                    .foregroundStyle(selectedTab == tab ? AppColors.primary : AppColors.textSecondary)
-                    .frame(maxWidth: .infinity)
-                }
-            }
-            
-            // Search Button
-            Button(action: {
-                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                searchAction()
-            }) {
-                VStack(spacing: 4) {
-                    Image(systemName: "magnifyingglass")
-                        .font(.system(size: 20, weight: .medium))
-                    Text("Search")
-                        .font(AppTypography.caption)
-                }
-                .foregroundStyle(AppColors.textSecondary)
-                .frame(maxWidth: .infinity)
-            }
+            tabButton(icon: "briefcase.fill", text: "Jobs", isSelected: true, action: onJobsTap)
+            tabButton(icon: "heart.fill", text: "Saved", isSelected: false, action: onSavedTap)
+            tabButton(icon: "person.fill", text: "Profile", isSelected: false, action: onProfileTap)
+            tabButton(icon: "magnifyingglass", text: "Search", isSelected: false, action: onSearchTap)
         }
         .padding(.horizontal, AppSpacing.sm)
         .padding(.vertical, AppSpacing.sm)
@@ -46,8 +20,24 @@ struct FloatingTabBar: View {
         .shadow(color: AppShadow.floating, radius: 16, y: 8)
         .padding(.horizontal, AppSpacing.md)
     }
+    
+    private func tabButton(icon: String, text: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: {
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            action()
+        }) {
+            VStack(spacing: 4) {
+                Image(systemName: icon)
+                    .font(.system(size: 20, weight: .medium))
+                Text(text)
+                    .font(AppTypography.caption)
+            }
+            .foregroundStyle(isSelected ? AppColors.primary : AppColors.textSecondary)
+            .frame(maxWidth: .infinity)
+        }
+    }
 }
 
 #Preview {
-    FloatingTabBar(selectedTab: .constant(.jobs), searchAction: {})
+    FloatingTabBar(onJobsTap: {}, onSavedTap: {}, onProfileTap: {}, onSearchTap: {})
 }
