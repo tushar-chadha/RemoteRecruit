@@ -159,3 +159,7 @@ struct JobListView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
+
+#Preview {
+    JobListView()
+}

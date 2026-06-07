@@ -9,11 +9,20 @@ import SwiftUI
 
 @main
 struct RemoteRecruitApp: App {
+    @AppStorage("appearanceMode") var appearanceMode: String = "system"
+    
     var body: some Scene {
         WindowGroup {
-            NavigationStack{
-                JobListView()//home entry 
-            }
+            JobListView() // home entry
+                .preferredColorScheme(resolvedScheme)
+        }
+    }
+    
+    private var resolvedScheme: ColorScheme? {
+        switch appearanceMode {
+        case "light": return .light
+        case "dark":  return .dark
+        default:      return nil // system
         }
     }
 }
