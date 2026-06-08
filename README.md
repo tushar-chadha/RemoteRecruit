@@ -1,45 +1,371 @@
-# RemoteRecruit
+****# 🚀 RemoteRecruit
 
-A production-quality iOS job browser app built as a 72-hour take-home assignment.
+A production-oriented iOS application built as part of the RemoteRecruit 72-Hour Technical Examination.
 
-## Setup
-1.  **Environment**: Requires Xcode 15.0+ and iOS 17.0+.
-2.  **Installation**: Clone the repository and open `RemoteRecruit.xcodeproj`.
-3.  **Dependencies**: The project uses zero third-party libraries. All functionality is built using native Apple frameworks (SwiftUI, Combine, Security, Foundation).
-4.  **Running**: Select a simulator (e.g., iPhone 15) and press `Cmd + R`.
+The project demonstrates modern iOS engineering practices using SwiftUI, MVVM, Async/Await, Protocol-Oriented Dependency Injection, Local Persistence, Session Management, and Dark Mode support, while maintaining a clean and scalable architecture.
 
-## Architecture  
-RemoteRecruit follows the **MVVM (Model-View-ViewModel)** architectural pattern combined with a service-oriented approach:
--   **Views**: Declarative SwiftUI views that observe ViewModels.
--   **ViewModels**: Manage UI state and business logic, leveraging `@MainActor` for thread safety.
--   **Services**: Encapsulated network and storage logic (e.g., `JobService`, `SavedJobsManager`).
--   **Models**: Pure data structures conforming to `Codable` and `Identifiable`.
+---
 
-## Key Technical Decisions
--   **Native Stack**: Zero third-party dependencies (like Alamofire or Kingfisher) to demonstrate deep knowledge of native frameworks like `URLSession` and `AsyncImage`.
--   **Async/Await**: Used for all network calls to ensure modern, readable, and efficient concurrency management.
--   **Persistence**: `SavedJobsManager` uses `UserDefaults` with `JSONEncoder` for favorites, while `KeychainManager` is implemented for secure token storage (ready for future Auth expansion).
--   **Design System**: A centralized design system (`AppColors`, `AppTypography`, `AppSpacing`) ensures visual consistency and easy theme management.
--   **UX Refinement**: Implemented skeleton loading with shimmer animations and an expandable text component for long job descriptions.
+# ✅ Examination Requirements Coverage
 
-## Features
--   **Browse Jobs**: Real-time job listings from the Himalayas API with pagination support.
--   **Search**: Debounced search by job title or company with recent search history.
--   **Favorites**: Persistent "Save" functionality allowing users to bookmark jobs for offline viewing.
--   **Job Details**: Rich detail view with floating action buttons and share functionality.
--   **Accessibility**: Full VoiceOver support with custom labels, hints, and traits.
+### Job Listing
+- Display jobs from Himalayas API
+- Job title
+- Company name
+- Location
+- Salary information
+- Pull to refresh
 
-## Testing
--   **Unit Tests**: Over 70% coverage targeting ViewModels and Managers.
--   **Mocks**: Protocol-based dependency injection allows for reliable testing of network failure and success states.
--   **Validation**: Tests cover state transitions (idle -> loading -> loaded/error/empty), pagination logic, and persistence reliability.
+### Search
+- Search by title
+- Search by company
+- Debounced search requests
+- Search result handling
+- Search history persistence
 
-## Assumptions
--   **API Limit**: The Himalayas API is treated as the source of truth; however, basic HTML stripping is performed locally to ensure UI safety.
--   **Auth**: While the app supports a "Guest" mode, the infrastructure for secure token storage is pre-integrated in `KeychainManager`.
--   **Offline**: The app requires an internet connection for searching/browsing, but saved jobs are accessible via local persistence.
+### Job Details
+- Job description
+- Company information
+- Salary details
+- Location details
+- Apply URL
+- Share functionality
+
+### State Handling
+- Loading states
+- Empty states
+- Error states
+- Retry handling
+- Offline awareness
+
+### Architecture
+- MVVM
+- Protocol-Oriented Dependency Injection
+- Async/Await
+- Service Layer Architecture
+- Feature-Based Folder Structure
+
+### Deliverables
+- Architecture Documentation
+- Clean Git History
+- Scalable Code Structure
+- Production-Ready Design System
+
+---
+
+# 🌟 What Makes This Submission Stand Out
+
+While the assignment requirements have been fully implemented, the project also includes several production-focused improvements beyond the requested scope.
+
+### Advanced Search Experience
+- 400ms debounced search
+- Persistent recent searches
+- Dedicated search screen
+- Instant search suggestions
+
+### Saved Jobs System
+- Save and unsave jobs
+- Persistent local storage
+- Dedicated Saved Jobs screen
+- State synchronization across the application
+
+### Authentication Foundation
+- Guest Mode support
+- Session Manager architecture
+- Keychain-ready secure token storage
+- Auto-login infrastructure
+
+### Modern Design System
+- Centralized typography
+- Centralized spacing system
+- Centralized color system
+- Full Dark Mode support
+- Reusable SwiftUI components
+
+### Enhanced Job Detail Experience
+- Expandable descriptions
+- Expandable requirements
+- Floating Apply button
+- Share job functionality
+- Persistent favorite state
+
+### Native iOS Experience
+- SwiftUI-first architecture
+- Custom floating glass tab bar
+- Native navigation patterns
+- Haptic feedback integration
+- Dynamic appearance support
+
+---
+
+# 🏗 Architecture
+
+The application follows a layered MVVM architecture.
+
+text SwiftUI View       ↓ ViewModel       ↓ Service Protocol       ↓ Service Implementation       ↓ Network Layer       ↓ URLSession       ↓ API 
+
+### Architectural Principles
+
+- Separation of Concerns
+- Single Responsibility Principle
+- Dependency Inversion
+- Testability
+- Scalability
+- Reusability
+
+---
+
+# 📁 Project Structure
+
+text RemoteRecruit  App ├── RemoteRecruitApp ├── RootView └── AppEnvironment  Core ├── Network ├── Storage ├── DesignSystem ├── Utilities └── Managers  Features ├── JobList ├── JobDetail ├── Search ├── SavedJobs ├── Profile ├── Authentication └── MainTab  Models ├── Job ├── JobResponse ├── ViewState └── AppError  Services ├── JobService ├── JobServiceProtocol └── NetworkService  Tests ├── Services ├── Managers └── ViewModels 
+
+---
+
+# 🔧 Technical Decisions
+
+## Native Apple Frameworks Only
+
+The project intentionally avoids third-party dependencies to demonstrate proficiency with Apple's native ecosystem.
+
+Frameworks used:
+
+- SwiftUI
+- Foundation
+- URLSession
+- Combine
+- Security
+- AsyncImage
+
+---
+
+## Async/Await Networking
+
+All network requests utilize Swift Concurrency.
+
+Benefits:
+
+- Cleaner asynchronous code
+- Improved readability
+- Reduced callback nesting
+- Better error propagation
+
+---
+
+## Protocol-Based Dependency Injection
+
+Services are injected through protocols rather than concrete implementations.
+
+Benefits:
+
+- Improved testability
+- Loose coupling
+- Easier mocking
+- Better maintainability
+
+---
+
+## Persistence Strategy
+
+### UserDefaults
+
+Used for:
+
+- Recent searches
+- Saved jobs
+- Guest mode state
+
+### Keychain
+
+Implemented for:
+
+- Authentication tokens
+- Secure credentials
+- Future authentication expansion
+
+---
+
+## Design System
+
+A centralized design system provides consistency throughout the application.
+
+### Typography
+
+- App Title
+- Section
+- Body
+- Caption
+
+### Spacing
+
+- 8
+- 16
+- 24
+- 32
+
+### Colors
+
+- Primary
+- Background
+- Card Background
+- Text Primary
+- Text Secondary
+- Border
+- State Colors
+
+---
+
+# ✨ Features
+
+## Browse Jobs
+
+- Real-time API integration
+- Pagination support
+- Pull-to-refresh
+- Loading states
+
+## Search
+
+- Debounced requests
+- Company search
+- Title search
+- Recent searches
+
+## Saved Jobs
+
+- Persistent favorites
+- Dedicated saved jobs screen
+- Instant synchronization
+
+## Job Details
+
+- Rich job information
+- Expandable sections
+- Share functionality
+- Apply URL handling
+
+## Profile
+
+- Guest mode support
+- Session management
+- Logout handling
+
+## Dark Mode
+
+- Full application support
+- Dynamic system colors
+- Adaptive UI components
+
+---
+
+# 🧪 Testing Strategy
+
+The architecture is designed for unit testing through protocol abstractions and dependency injection.
+
+Covered scenarios:
+
+### ViewModel Tests
+
+- Loading state
+- Success state
+- Empty state
+- Error state
+- Search functionality
+
+### Service Tests
+
+- API success
+- API failure
+- Decoding validation
+
+### Persistence Tests
+
+- Saved jobs
+- Search history
+- Session management
+
+---
+
+# 📡 API
+
+### Source
+
+Himalayas Jobs API
+
+### Features Used
+
+- Job Listings
+- Pagination
+- Search
+
+### Parameters
+
+- limit
+- offset
+- query
+
+---
+
+# 🚀 Setup
+
+### Requirements
+
+- Xcode 15+
+- iOS 17+
+- Swift 5.9+
+
+### Installation
+
+bash git clone <repository-url> cd RemoteRecruit open RemoteRecruit.xcodeproj 
+
+### Run
+
+1. Select an iOS Simulator
+2. Press Cmd + R
+
+No additional configuration or third-party dependencies are required.
+
+---
+
+# 📝 Assumptions
+
+- Himalayas API is treated as the source of truth.
+- Network connectivity is required for job discovery.
+- Saved jobs remain accessible through local persistence.
+- Authentication infrastructure is prepared for future Google + Supabase integration.
+
+---
+
+# 🔮 Future Improvements
+
+- Offline job caching
+- Image caching
+- Push notifications
+- Deep linking
+- Analytics
+- Advanced filtering
+- Job alerts
+- Google Authentication
+- Supabase Integration
+- Full UI Test Coverage
+
+---
+
+# 👨‍💻 Author
+
+Built as part of the RemoteRecruit iOS Technical Examination using SwiftUI, MVVM, and modern Apple development practices****`@MainActor` ViewModels · Protocol-injected services · Feature-based folders · Keychain + UserDefaults persistence
+
+---
+
+## Run it
+
+```bash
+git clone <repo-url> && open RemoteRecruit.xcodeproj
+```
+
+iOS 17+ simulator · No keys · No config · No third-party deps
+
+---
 
 ## API
--   **Source**: Himalayas Public API
--   **Endpoint**: `https://himalayas.app/jobs/api`
--   **Usage**: Utilizes `limit` and `offset` for pagination and `query` for keyword search.
+
+[Himalayas Jobs API](https://himalayas.app/jobs/api) — pagination, search, no key required
