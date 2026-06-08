@@ -1,6 +1,7 @@
 ****# 🚀 RemoteRecruit
+**[📹 Watch the demo](https://drive.google.com/file/d/1GnsUGyxXlXyb98xp6XCuIhalPkU6ECeF/view?usp=drivesdk)**
 
-A production-oriented iOS application built as part of the RemoteRecruit 72-Hour Technical Examination.
+A production-oriented iOS application built as part of the RemoteRecruit Technical Examination.
 
 The project demonstrates modern iOS engineering practices using SwiftUI, MVVM, Async/Await, Protocol-Oriented Dependency Injection, Local Persistence, Session Management, and Dark Mode support, while maintaining a clean and scalable architecture.
 
