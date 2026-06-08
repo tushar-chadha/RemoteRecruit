@@ -1,9 +1,3 @@
-//
-//  JobService.swift
-//  RemoteRecruit
-//
-//  Created by tushar on 06/06/26.
-//
 
 import Foundation
 
@@ -33,13 +27,13 @@ final class JobService: JobServiceProtocol {
             URLQueryItem(name: "q", value: query),
             URLQueryItem(name: "page", value: String(page))
         ]
-        
+
         guard let url = components?.url else { throw AppError.unknown("Invalid URL") }
-        
+
         do {
             return try await networkService.request(from: url)
         } catch let urlError as URLError where urlError.code == .cancelled {
-            throw CancellationError() //  cancel → Swift CancellationError
+            throw CancellationError()
         }
     }
 

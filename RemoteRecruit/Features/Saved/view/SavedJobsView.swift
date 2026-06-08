@@ -2,12 +2,12 @@ import SwiftUI
 
 struct SavedJobsView: View {
     @StateObject private var manager = SavedJobsManager.shared
-    
+
     var body: some View {
         NavigationStack {
             ZStack {
                 AppColors.background.ignoresSafeArea()
-                
+
                 if manager.savedJobs.isEmpty {
                     emptyState
                 } else {
@@ -21,7 +21,6 @@ struct SavedJobsView: View {
                             }
                         }
                         .padding(AppSpacing.md)
-                        // Extra padding for FloatingTabBar
                         .padding(.bottom, 80)
                     }
                 }
@@ -29,22 +28,21 @@ struct SavedJobsView: View {
             .navigationTitle("Saved Jobs")
             .navigationBarTitleDisplayMode(.large)
             .onAppear {
-                // Ensure UI reflects any background updates
             }
         }
     }
-    
+
     private var emptyState: some View {
         VStack(spacing: AppSpacing.sm) {
             Image(systemName: "heart.slash")
                 .font(.system(size: 60))
                 .foregroundStyle(AppColors.textSecondary)
                 .padding(.bottom, AppSpacing.sm)
-            
+
             Text("No Saved Jobs")
                 .font(AppTypography.section)
                 .foregroundStyle(AppColors.textPrimary)
-            
+
             Text("Jobs you save will appear here.")
                 .font(AppTypography.body)
                 .foregroundStyle(AppColors.textSecondary)

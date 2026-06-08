@@ -3,7 +3,7 @@ import SwiftUI
 struct JobFilterSection: View {
     let filters = ["Remote", "Full Time", "iOS", "Swift", "SwiftUI", "Mid Level", "Senior"]
     @State private var selectedFilter: String = "Remote"
-    
+
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: AppSpacing.xs) {
@@ -23,9 +23,9 @@ struct JobFilterSection: View {
                     }
                 }
             }
-            .padding(.horizontal, AppSpacing.md) // Align with external padding
+            .padding(.horizontal, AppSpacing.md)
         }
-        .padding(.horizontal, -AppSpacing.md) // Negative padding to bleed edge-to-edge in a padded ScrollView
+        .padding(.horizontal, -AppSpacing.md)
     }
 }
 

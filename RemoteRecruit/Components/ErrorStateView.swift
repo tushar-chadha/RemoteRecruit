@@ -1,13 +1,4 @@
-//
-//  ErrorStateView.swift
-//  RemoteRecruit
-//
-//  Created by tushar on 06/06/26.
-//
 
-//
-// ErrorStateView.swift
-//
 
 import SwiftUI
 

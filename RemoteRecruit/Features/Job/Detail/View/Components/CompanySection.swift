@@ -1,9 +1,3 @@
-//
-//  CompanySection.swift
-//  RemoteRecruit
-//
-//  Created by tushar on 07/06/26.
-//
 
 import SwiftUI
 import Combine
@@ -15,52 +9,54 @@ struct CompanySection: View {
 
         VStack(
             alignment: .leading,
-            spacing: 16
+            spacing: AppSpacing.sm
         ) {
-
             Text("About Company")
-                .font(.title2.bold())
+                .font(AppTypography.section)
+                .foregroundStyle(AppColors.textPrimary)
 
-            HStack(spacing: 12) {
-
+            HStack(spacing: AppSpacing.sm) {
                 AsyncImage(
                     url: URL(string: job.companyLogo ?? "")
                 ) { image in
-
                     image
                         .resizable()
                         .scaledToFit()
-
                 } placeholder: {
                     ProgressView()
                 }
                 .frame(width: 50, height: 50)
 
                 VStack(alignment: .leading) {
-
-                    Text(job.companyName)
-                        .font(.headline)
-                    if job.companySlug != nil {
-                        Text(job.companySlug ?? "")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                    Text(job.companyDisplayName)
+                        .font(AppTypography.bodyMedium)
+                        .foregroundStyle(AppColors.textPrimary)
+                    
+                    if let slug = job.companySlug {
+                        Text(slug)
+                            .font(AppTypography.caption)
+                            .foregroundStyle(AppColors.textSecondary)
                     }
                 }
 
                 Spacer()
             }
 
-            Text(job.excerpt ?? "")
-                .foregroundStyle(.secondary)
+            if let excerpt = job.excerpt {
+                Text(excerpt)
+                    .font(AppTypography.body)
+                    .foregroundStyle(AppColors.textSecondary)
+            }
         }
-        .padding()
-        .background(.white)
+        .padding(AppSpacing.sm)
+        .background(AppColors.cardBackground)
         .clipShape(
-            RoundedRectangle(cornerRadius: 20)
+            RoundedRectangle(cornerRadius: AppRadius.large)
         )
         .shadow(
-            color: .black.opacity(0.08),
-            radius: 15
+            color: AppShadow.card,
+            radius: 12,
+            y: 4
         )
     }
 }

@@ -1,9 +1,3 @@
-//
-//  ContentView.swift
-//  RemoteRecruit
-//
-//  Created by tushar on 05/06/26.
-//
 
 import SwiftUI
 

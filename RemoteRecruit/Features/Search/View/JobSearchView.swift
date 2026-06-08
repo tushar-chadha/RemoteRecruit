@@ -48,7 +48,6 @@ struct JobSearchView: View {
         }
     }
 
-    // MARK: - Results
 
     private var resultsList: some View {
         ScrollView {
@@ -60,13 +59,22 @@ struct JobSearchView: View {
                         JobCardView(job: job)
                     }
                     .buttonStyle(.plain)
+                    .onAppear {
+                        Task {
+                            await viewModel.loadMoreIfNeeded(currentJob: job)
+                        }
+                    }
+                }
+                
+                if viewModel.isLoadingMore {
+                    ProgressView()
+                        .padding()
                 }
             }
             .padding(AppSpacing.md)
         }
     }
 
-    // MARK: - Recent Searches
 
     private var recentSearches: some View {
         ScrollView {
@@ -144,7 +152,6 @@ struct JobSearchView: View {
         }
     }
 
-    // MARK: - Empty State
 
     private var emptyState: some View {
         VStack(spacing: AppSpacing.sm) {

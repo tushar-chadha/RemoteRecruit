@@ -1,72 +1,62 @@
-//
-//  JobHeroSection.swift.swift
-//  RemoteRecruit
-//
-//  Created by tushar on 07/06/26.
-//
 
 import SwiftUI
 
 struct JobHeroSection: View {
     let job: Job
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: AppSpacing.sm) {
             companyLogo
-            VStack(alignment: .leading) {
-
+            VStack(alignment: .leading, spacing: AppSpacing.xs,) {
                 Text(job.title)
-                    .font(.system(size: 28, weight: .bold))
+                    .font(AppTypography.title)
+                    .foregroundStyle(AppColors.textPrimary)
                     .multilineTextAlignment(.leading)
 
-                HStack(spacing: 8) {
-                    Text(job.companyName)
+                HStack(spacing: AppSpacing.xs) {
+                    Text(job.companyDisplayName)
                     Circle()
                         .frame(width: 4)
                     Text(job.locationText)
                 }
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .font(AppTypography.body)
+                .foregroundStyle(AppColors.textSecondary)
             }
 
-            HStack(spacing: 8, ) {
-
+            HStack(spacing: AppSpacing.xs) {
                 if let type = job.employmentType {
                     JobTag(text: type)
                 }
 
                 JobTag(text: "Remote")
-
             }
-        }.frame(maxWidth: .infinity)
-            .padding(.top, 24)
+        }
+        .frame(maxWidth: .infinity,alignment: .leading)
+        .padding(.top, AppSpacing.md)
     }
 }
 extension JobHeroSection {
     fileprivate var companyLogo: some View {
-
         AsyncImage(url: URL(string: job.companyLogo ?? "")) { image in
             image
                 .resizable()
                 .scaledToFill()
         } placeholder: {
-
             Image(systemName: "building.2.fill")
                 .font(.largeTitle)
-                .foregroundStyle(.secondary)
-
-        }.frame(width: 72, height: 72)
-            .background(.white)
-            .clipShape(
-                RoundedRectangle(
-                    cornerRadius: 20
-                )
+                .foregroundStyle(AppColors.textSecondary)
+        }
+        .frame(width: 72, height: 72)
+        .background(AppColors.cardBackground)
+        .clipShape(
+            RoundedRectangle(
+                cornerRadius: AppRadius.medium
             )
-            .shadow(
-                color: .black.opacity(0.08),
-                radius: 12,
-                y: 6
-            )
-
+        )
+        .shadow(
+            color: AppShadow.card,
+            radius: 12,
+            y: 6
+        )
     }
 }
 #Preview {

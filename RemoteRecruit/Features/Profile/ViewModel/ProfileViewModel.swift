@@ -5,29 +5,28 @@ final class ProfileViewModel: ObservableObject {
     @Published private(set) var isGuest: Bool = false
     @Published private(set) var userEmail: String? = nil
     @Published private(set) var userName: String? = nil
-    
+
     private let sessionManager = SessionManager.shared
-    
+
     init() {
         updateProfileState()
     }
-    
+
     func updateProfileState() {
         if sessionManager.authState == .guest {
             isGuest = true
         } else if sessionManager.authState == .authenticated {
             isGuest = false
-            // TODO: Fetch actual user details from Supabase Auth
             userEmail = "developer@remoterecruit.com"
             userName = "Remote Developer"
         }
     }
-    
+
     func logout() {
         sessionManager.logout()
     }
-    
+
     func loginFromGuest() {
-        sessionManager.logout() // Clears guest state and goes to unauthenticated
+        sessionManager.logout()
     }
 }

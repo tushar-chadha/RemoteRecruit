@@ -11,27 +11,21 @@ extension Color {
 }
 
 enum AppColors {
-    // MARK: Brand
     static let primary = Color.accentColor
-    
-    // MARK: Backgrounds
+
     static let background = Color.appBackground
     static let secondaryBackground = Color(uiColor: .secondarySystemGroupedBackground)
     static let cardBackground = Color(uiColor: .systemBackground)
-    
-    // MARK: Text
+
     static let textPrimary = Color(uiColor: .label)
     static let textSecondary = Color(uiColor: .secondaryLabel)
-    
-    // MARK: Borders
+
     static let border = Color(uiColor: .separator)
-    
-    // MARK: States
+
     static let success = Color.green
     static let warning = Color.orange
     static let error = Color.red
-    
-    // MARK: Chips
+
     static let chipBackground = primary.opacity(0.12)
     static let chipText = primary
 }

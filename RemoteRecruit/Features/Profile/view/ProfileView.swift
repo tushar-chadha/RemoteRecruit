@@ -3,7 +3,7 @@ import Combine
 
 struct ProfileView: View {
     @StateObject private var viewModel = ProfileViewModel()
-    
+
     var body: some View {
         NavigationStack {
             List {
@@ -12,10 +12,10 @@ struct ProfileView: View {
                 } else {
                     accountSection
                 }
-                
+
                 settingsSection
                 aboutSection
-                
+
                 if !viewModel.isGuest {
                     logoutSection
                 }
@@ -27,7 +27,7 @@ struct ProfileView: View {
             }
         }
     }
-    
+
     private var accountSection: some View {
         Section {
             HStack(spacing: AppSpacing.sm) {
@@ -35,12 +35,12 @@ struct ProfileView: View {
                     .resizable()
                     .frame(width: 60, height: 60)
                     .foregroundStyle(AppColors.primary)
-                
+
                 VStack(alignment: .leading, spacing: 4) {
                     Text(viewModel.userName ?? "User")
                         .font(AppTypography.section)
                         .foregroundStyle(AppColors.textPrimary)
-                    
+
                     Text(viewModel.userEmail ?? "")
                         .font(AppTypography.body)
                         .foregroundStyle(AppColors.textSecondary)
@@ -51,14 +51,14 @@ struct ProfileView: View {
             Text("Account")
         }
     }
-    
+
     private var guestSection: some View {
         Section {
             VStack(alignment: .leading, spacing: AppSpacing.sm) {
                 Text("You are browsing as a guest.")
                     .font(AppTypography.body)
                     .foregroundStyle(AppColors.textPrimary)
-                
+
                 Button(action: {
                     viewModel.loginFromGuest()
                 }) {
@@ -77,7 +77,7 @@ struct ProfileView: View {
             Text("Account")
         }
     }
-    
+
     private var settingsSection: some View {
         Section {
             NavigationLink(destination: Text("Notifications Settings")) {
@@ -90,7 +90,7 @@ struct ProfileView: View {
             Text("Settings")
         }
     }
-    
+
     private var aboutSection: some View {
         Section {
             NavigationLink(destination: Text("Privacy Policy")) {
@@ -109,7 +109,7 @@ struct ProfileView: View {
             Text("About")
         }
     }
-    
+
     private var logoutSection: some View {
         Section {
             Button(action: {

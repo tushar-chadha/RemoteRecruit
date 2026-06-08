@@ -1,9 +1,3 @@
-//
-//  RemoteRecruitApp.swift
-//  RemoteRecruit
-//
-//  Created by tushar on 05/06/26.
-//
 
 import SwiftUI
 
@@ -24,7 +18,7 @@ struct RemoteRecruitApp: App {
         switch appearanceMode {
         case "light": return .light
         case "dark":  return .dark
-        default:      return nil // system
+        default:      return nil
         }
     }
 }

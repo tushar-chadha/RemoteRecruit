@@ -2,7 +2,7 @@ import SwiftUI
 
 struct CompanyLogo: View {
     let urlString: String?
-    
+
     var body: some View {
         Group {
             if let urlString, let url = URL(string: urlString) {
@@ -32,7 +32,7 @@ struct CompanyLogo: View {
                 .stroke(AppColors.border, lineWidth: 0.5)
         )
     }
-    
+
     private var placeholder: some View {
         Image(systemName: "building.2.fill")
             .font(.system(size: 24))

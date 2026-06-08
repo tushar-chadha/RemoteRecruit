@@ -1,36 +1,10 @@
-//
-//  JobListViewModel.swift
-//  RemoteRecruit
-//
-//  Created by tushar on 06/06/26.
-//
-
 import Combine
-//Load jobs
-//Store jobs
-//Handle pagination
-//Handle errors
-//Handle loading
-//Handle empty states
-/*
- Architechture
- JobListView
-       ↓
- JobListViewModel
-       ↓
- JobServiceProtocol
-       ↓
- JobService
-       ↓
- NetworkService*/
 import Foundation
 
 @MainActor
 final class JobListViewModel: ObservableObject {
-    // MARK: - Dependencies
     private let jobService: JobServiceProtocol
 
-    // MARK: - Published State
     @Published private(set) var state: ViewState<[Job]> = .idle
     @Published var searchText = "" {
         didSet {
@@ -38,25 +12,24 @@ final class JobListViewModel: ObservableObject {
         }
     }
     @Published var recentSearches: [String] = []
+    @Published private(set) var isLoadingMore: Bool = false
 
-    // MARK: - Search
     private var searchTask: Task<Void, Never>?
-    private var isSearchMode = false
-    var isSearching : Bool{
-        searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty==false 
+    var isSearching: Bool {
+        !searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
-    // MARK: - Pagination
+
     private var jobs: [Job] = []
     private var currentOffset = 0
     private let pageSize = 20
     private var canLoadMore = true
-    // MARK: - Init
-    init(
-        jobService: JobServiceProtocol
-    ) {
+
+    private var searchPage = 1
+    private var canLoadMoreSearchResults = true
+
+    init(jobService: JobServiceProtocol) {
         self.jobService = jobService
     }
-    // MARK: - Initial Load
 
     func loadJobs() async {
         guard state != .loading else { return }
@@ -67,9 +40,6 @@ final class JobListViewModel: ObservableObject {
                 offset: currentOffset,
                 limit: pageSize
             )
-            for job in response.jobs.prefix(5) {
-                print(job.companyName)
-            }
             jobs = response.jobs
             currentOffset = jobs.count
             canLoadMore = response.jobs.count == pageSize
@@ -79,40 +49,44 @@ final class JobListViewModel: ObservableObject {
                 state = .loaded(jobs)
             }
         } catch {
-            state = .error(
-
-                .unknown(error.localizedDescription)
-
-            )
+            state = .error(.unknown(error.localizedDescription))
         }
     }
-    // MARK: - Pagination
+
     func loadMore() async {
-        guard canLoadMore else {
-            return
-        }
-        guard case .loaded = state else {
-            return
-        }
+        guard canLoadMore, !isLoadingMore else { return }
+        guard case .loaded = state else { return }
+        
+        isLoadingMore = true
         do {
             let response = try await jobService.fetchJobs(
                 offset: currentOffset,
                 limit: pageSize
             )
 
-            jobs.append(contentsOf: response.jobs)
+            let existingIDs = Set(jobs.map { $0.id })
+            let newJobs = response.jobs.filter { !existingIDs.contains($0.id) }
+            
+            jobs.append(contentsOf: newJobs)
             currentOffset += response.jobs.count
             canLoadMore = response.jobs.count == pageSize
             state = .loaded(jobs)
         } catch let error as AppError {
             state = .error(error)
         } catch {
-            state = .error(
-                .unknown(error.localizedDescription)
-            )
+            state = .error(.unknown(error.localizedDescription))
+        }
+        isLoadingMore = false
+    }
+
+    func loadMoreIfNeeded(currentJob: Job) async {
+        guard let last = jobs.last, last.id == currentJob.id else { return }
+        if isSearching {
+            await loadMoreSearchSearchResults()
+        } else {
+            await loadMore()
         }
     }
-    // MARK: - Refresh
 
     func refresh() async {
         currentOffset = 0
@@ -121,73 +95,82 @@ final class JobListViewModel: ObservableObject {
         await loadJobs()
     }
 
-    // MARK: - Debounced Search
     func debouncedSearch(query: String) {
         searchTask?.cancel()
 
         if query.isEmpty {
             Task { await refresh() }
-            return  // ✅ Exit early — don't create a search task
+            return
         }
 
         searchTask = Task {
             try? await Task.sleep(for: .milliseconds(400))
-            guard !Task.isCancelled else { return }  // ✅ Readable: "ensure NOT canceled"
+            guard !Task.isCancelled else { return }
             await performSearch(query: query)
         }
     }
-    private func performSearch(
-        query: String
-    ) async {
-        print("Searching: \(query)")
+
+    private func performSearch(query: String) async {
         state = .loading
+        searchPage = 1
+        canLoadMoreSearchResults = true
+        
         do {
             let response = try await jobService.searchJobs(
                 query: query,
-                page: 1
+                page: searchPage
             )
-            print(response)
-            print("Searching: \(query)")
-            print("Jobs Found: \(response.jobs.count)")
             jobs = response.jobs
 
             if jobs.isEmpty {
-                state = .empty(
-                    reason: .noResults(
-                        query: query
-                    )
-                )
+                state = .empty(reason: .noResults(query: query))
             } else {
-                SearchHistoryManager.shared.save(
-                    search: searchText
-                )
-                loadRecentSearches()
+                if query.trimmingCharacters(in: .whitespaces).count >= 3 {
+                    SearchHistoryManager.shared.save(search: query)
+                    loadRecentSearches()
+                }
                 state = .loaded(jobs)
+                canLoadMoreSearchResults = response.jobs.count == pageSize
             }
         } catch is CancellationError {
             return
         } catch let urlError as URLError where urlError.code == .cancelled {
             return
         } catch let error as AppError {
-            if case .unknown(let msg) = error,
-                msg.lowercased().contains("cancel")
-            {
-                return
-            }
-            print("Apperror is: \(error)")
             state = .error(error)
         } catch {
-            print("error is: \(error)")
-            state = .error(
-                .unknown(error.localizedDescription)
-            )
+            state = .error(.unknown(error.localizedDescription))
         }
-
-        // MARK: - RECENT SEARCH KEYWORDS
-
     }
+
+    func loadMoreSearchSearchResults() async {
+        guard canLoadMoreSearchResults, !isLoadingMore else { return }
+        
+        isLoadingMore = true
+        searchPage += 1
+        do {
+            let response = try await jobService.searchJobs(
+                query: searchText,
+                page: searchPage
+            )
+            
+            let existingIDs = Set(jobs.map { $0.id })
+            let newJobs = response.jobs.filter { !existingIDs.contains($0.id) }
+            
+            jobs.append(contentsOf: newJobs)
+            canLoadMoreSearchResults = response.jobs.count == pageSize
+            state = .loaded(jobs)
+        } catch is CancellationError {
+            // silent
+        } catch let urlError as URLError where urlError.code == .cancelled {
+            // silent
+        } catch {
+            state = .error(.unknown(error.localizedDescription))
+        }
+        isLoadingMore = false
+    }
+
     func loadRecentSearches() {
-        recentSearches =
-            SearchHistoryManager.shared.getSearches()
+        recentSearches = SearchHistoryManager.shared.getSearches()
     }
 }

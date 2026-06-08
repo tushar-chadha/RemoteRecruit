@@ -2,7 +2,7 @@ import SwiftUI
 
 struct TagCapsule: View {
     let text: String
-    
+
     var body: some View {
         Text(text)
             .font(AppTypography.captionMedium)

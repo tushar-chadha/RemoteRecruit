@@ -4,8 +4,7 @@ import SwiftUI
 struct JobListView: View {
     @StateObject private var viewModel: JobListViewModel
     @State private var isSearching = false
-    
-    // MARK: - Navigation States
+
     @State private var showSaved = false
     @State private var showProfile = false
     @State private var showSearch = false
@@ -28,11 +27,9 @@ struct JobListView: View {
 
                     content
                 }
-                
-                // Custom Floating Tab Bar overlay
+
                 FloatingTabBar(
                     onJobsTap: {
-                        // Action for current screen, e.g., scroll to top
                     },
                     onSavedTap: {
                         showSaved = true
@@ -45,7 +42,7 @@ struct JobListView: View {
                         showSearch = true
                     }
                 )
-                .padding(.bottom, AppSpacing.sm)
+            
             }
             .ignoresSafeArea(.keyboard, edges: .bottom)
             .navigationTitle("Find Your Dream Job")
@@ -54,7 +51,6 @@ struct JobListView: View {
                 viewModel.loadRecentSearches()
                 await viewModel.loadJobs()
             }
-            // MARK: - Navigation Destinations
             .navigationDestination(isPresented: $showSaved) {
                 SavedJobsView()
             }
@@ -71,7 +67,7 @@ struct JobListView: View {
     private var content: some View {
         switch viewModel.state {
         case .idle:
-            Color.clear  // Should transition quickly to loading
+            Color.clear
 
         case .loading:
             ScrollView {
@@ -81,7 +77,7 @@ struct JobListView: View {
                     }
                 }
                 .padding(AppSpacing.md)
-                .padding(.bottom, 80) // Padding for FloatingTabBar
+                .padding(.bottom, 80)
             }
 
         case .empty:
@@ -124,27 +120,33 @@ struct JobListView: View {
                     }
                 }
 
-                // Jobs List
                 LazyVStack(spacing: AppSpacing.md) {
                     ForEach(jobs) { job in
                         NavigationLink(destination: JobDetailView(job: job)) {
                             JobCardView(job: job)
                         }
-                        .buttonStyle(.plain)  // Remove default NavigationLink styling
+                        .buttonStyle(.plain)
+                        .onAppear {
+                            Task {
+                                await viewModel.loadMoreIfNeeded(currentJob: job)
+                            }
+                        }
                     }
-
-                    // Loading indicator for pagination could go here
+                    
+                    if viewModel.isLoadingMore {
+                        ProgressView()
+                            .padding()
+                    }
                 }
             }
-            .padding(.horizontal, AppSpacing.md)
-            .padding(.bottom, 100) // Padding for FloatingTabBar
+            .padding(.horizontal, AppSpacing.sm)
+            .padding(.bottom, 100)
         }
         .refreshable {
             await viewModel.refresh()
         }
     }
 
-    // MARK: - Subviews
     private var emptyStateView: some View {
         VStack(spacing: AppSpacing.sm) {
             Image(systemName: "magnifyingglass")

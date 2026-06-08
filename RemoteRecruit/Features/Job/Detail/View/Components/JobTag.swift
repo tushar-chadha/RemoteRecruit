@@ -1,9 +1,3 @@
-//
-//  JobTag.swift
-//  RemoteRecruit
-//
-//  Created by tushar on 07/06/26.
-//
 
 import SwiftUI
 

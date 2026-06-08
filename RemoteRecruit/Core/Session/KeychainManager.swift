@@ -6,7 +6,6 @@ final class KeychainManager {
     static let shared = KeychainManager()
     private init() {}
 
-    // MARK: - Save
     @discardableResult
     func save(key: String, value: String) -> Bool {
         guard let data = value.data(using: .utf8) else { return false }
@@ -17,12 +16,11 @@ final class KeychainManager {
             kSecValueData as String   : data
         ]
 
-        SecItemDelete(query as CFDictionary) // remove old value first
+        SecItemDelete(query as CFDictionary)
         let status = SecItemAdd(query as CFDictionary, nil)
         return status == errSecSuccess
     }
 
-    // MARK: - Get
     func get(key: String) -> String? {
         let query: [String: Any] = [
             kSecClass as String       : kSecClassGenericPassword,
@@ -42,7 +40,6 @@ final class KeychainManager {
         return value
     }
 
-    // MARK: - Delete
     @discardableResult
     func delete(key: String) -> Bool {
         let query: [String: Any] = [

@@ -1,13 +1,6 @@
-//
-//  ViewState.swift
-//  RemoteRecruit
-//
-//  Created by tushar on 05/06/26.
-//
 
 import Foundation
 
-/// UI States
 enum ViewState<T: Equatable>: Equatable {
     case idle
     case loading
@@ -16,14 +9,12 @@ enum ViewState<T: Equatable>: Equatable {
     case error(AppError)
     case offline
 }
-/// Auth State
 enum AuthState : Equatable{
     case loading
     case authenticated
     case guest
     case unauthenticated
 }
-/// Precise categorical reasons for empty display states.
 enum EmptyReason: Equatable {
     case firstLaunch
     case noResults(query: String)

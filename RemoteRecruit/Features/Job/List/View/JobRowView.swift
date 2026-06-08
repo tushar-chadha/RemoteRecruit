@@ -1,12 +1,3 @@
-//
-//  JobRowView.swift
-//  RemoteRecruit
-//
-//  Created by tushar on 06/06/26.
-//
-//
-// JobRowView.swift
-//
 
 import SwiftUI
 
@@ -15,23 +6,25 @@ struct JobRowView: View {
     var body: some View {
         VStack(
             alignment: .leading,
-            spacing: 8
+            spacing: AppSpacing.xs
         ) {
             Text(job.title)
-                .font(.headline)
+                .font(AppTypography.bodyMedium)
+                .foregroundStyle(AppColors.textPrimary)
+            
             Text(job.companyDisplayName)
-                .font(.subheadline)
-            //            Text(job.locationRestrictions.description.description)
-            //                .font(.caption)
+                .font(AppTypography.body)
+                .foregroundStyle(AppColors.textPrimary)
+            
             HStack(alignment: .firstTextBaseline) {
                 Label(job.locationText, systemImage: "location")
                 Spacer()
                 Text(job.salaryText)
             }
-            .font(.caption)
-            .foregroundStyle(.secondary)
+            .font(AppTypography.caption)
+            .foregroundStyle(AppColors.textSecondary)
         }
-        .padding(.vertical,8)
+        .padding(.vertical, AppSpacing.xs)
     }
 }
 

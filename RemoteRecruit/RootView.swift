@@ -10,16 +10,16 @@ struct RootView: View {
             switch session.authState {
             case .loading:
                 SplashView()
-            case .authenticated, .guest:   // ✅ merge identical cases
+            case .authenticated, .guest:
                 JobListView()
             case .unauthenticated:
                 AuthView()
             }
         }
-        .environmentObject(session)        // ✅ pass session down to all child views
+        .environmentObject(session)
         .onAppear {
             session.checkSession()
         }
-        .animation(.easeInOut, value: session.authState) // ✅ smooth state transitions
+        .animation(.easeInOut, value: session.authState)
     }
 }

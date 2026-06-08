@@ -1,13 +1,4 @@
-//
-//  EmptyView.swift
-//  RemoteRecruit
-//
-//  Created by tushar on 06/06/26.
-//
 
-//
-// EmptyStateView.swift
-//
 
 import SwiftUI
 

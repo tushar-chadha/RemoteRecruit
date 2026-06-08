@@ -1,9 +1,3 @@
-//
-//  JobInfoCardsSection.swift
-//  RemoteRecruit
-//
-//  Created by tushar on 07/06/26.
-//
 
 import SwiftUI
 
@@ -12,30 +6,31 @@ struct JobInfoCard: View {
     let value: String
     let icon: String
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: AppSpacing.xs) {
             Image(systemName: icon)
                 .font(.title3)
-                .foregroundStyle(.blue)
+                .foregroundStyle(AppColors.primary)
 
             Text(title)
-                .font(.caption)
-                .foregroundStyle(.secondary)
+                .font(AppTypography.caption)
+                .foregroundStyle(AppColors.textSecondary)
 
             Text(value)
-                .font(.headline)
-                .foregroundStyle(.primary)
+                .font(AppTypography.bodyMedium)
+                .foregroundStyle(AppColors.textPrimary)
                 .multilineTextAlignment(.leading)
 
-        }.frame(maxWidth: .infinity, alignment: .leading)
-            .padding()
-            .frame(height: 140)
-            .background(Color(.systemBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 16))
-            .shadow(
-                color: .black.opacity(0.05),
-                    radius: 10,
-                    y: 5
-            )
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(AppSpacing.sm)
+        .frame(height: 140)
+        .background(AppColors.cardBackground)
+        .clipShape(RoundedRectangle(cornerRadius: AppRadius.medium))
+        .shadow(
+            color: AppShadow.card,
+            radius: 10,
+            y: 5
+        )
     }
 }
 

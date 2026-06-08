@@ -5,7 +5,7 @@ struct FloatingTabBar: View {
     let onSavedTap: () -> Void
     let onProfileTap: () -> Void
     let onSearchTap: () -> Void
-    
+
     var body: some View {
         HStack(spacing: 0) {
             tabButton(icon: "briefcase.fill", text: "Jobs", isSelected: true, action: onJobsTap)
@@ -20,7 +20,7 @@ struct FloatingTabBar: View {
         .shadow(color: AppShadow.floating, radius: 16, y: 8)
         .padding(.horizontal, AppSpacing.md)
     }
-    
+
     private func tabButton(icon: String, text: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
         Button(action: {
             UIImpactFeedbackGenerator(style: .light).impactOccurred()

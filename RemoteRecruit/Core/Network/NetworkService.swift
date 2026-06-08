@@ -1,9 +1,3 @@
-//
-//  NetworkService.swift
-//  RemoteRecruit
-//
-//  Created by tushar on 06/06/26.
-//
 
 import Foundation
 
@@ -24,7 +18,7 @@ final class NetworkService {
         do { (data, response) = try await session.data(for: request) } catch let
             error as URLError
         {
-            throw AppError.unknown(error.localizedDescription)  // We will map specific URLErrors later
+            throw AppError.unknown(error.localizedDescription)
         } catch {
             if error is CancellationError { throw error }
             throw AppError.unknown(error.localizedDescription)

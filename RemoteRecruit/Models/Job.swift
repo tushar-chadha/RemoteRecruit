@@ -1,9 +1,3 @@
-//
-//  Models.swift
-//  RemoteRecruit
-//
-//  Created by tushar on 06/06/26.
-//
 import Foundation
 internal import UIKit
 
@@ -15,7 +9,6 @@ struct JobResponse: Codable, Equatable {
     let updatedAt: Int
 }
 
-/// The individual job listing model
 struct Job: Codable, Identifiable, Hashable, Equatable {
 
     let id: String
@@ -62,7 +55,7 @@ extension Job {
         let date = Date(timeIntervalSince1970: TimeInterval(pubDate ?? 0))
         let formatter = RelativeDateTimeFormatter()
         formatter.unitsStyle = .short
-        
+
         return formatter.localizedString(
             for: date,
             relativeTo: Date()

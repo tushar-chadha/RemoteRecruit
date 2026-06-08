@@ -25,17 +25,22 @@ final class SavedJobsManager: ObservableObject {
         savedJobs.contains { $0.id == job.id }
     }
 
-    private func persist() {
-        if let encoded = try? JSONEncoder().encode(savedJobs) {
-            UserDefaults.standard.set(encoded, forKey: storageKey)
-        }
+    func clearAll() {
+        savedJobs = []
+        UserDefaults.standard.removeObject(forKey: storageKey)
     }
 
-    private func load() {
+    internal func load() {
         if let data = UserDefaults.standard.data(forKey: storageKey),
             let decoded = try? JSONDecoder().decode([Job].self, from: data)
         {
             savedJobs = decoded
+        }
+    }
+
+    private func persist() {
+        if let encoded = try? JSONEncoder().encode(savedJobs) {
+            UserDefaults.standard.set(encoded, forKey: storageKey)
         }
     }
 }
